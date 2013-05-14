@@ -15,11 +15,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 
-package orthants;
+package org.adaptivesampling.phylotree.orthants;
 
-import geodesic.*;
+import java.util.ArrayList;
 
-import java.util.*;
+import org.adaptivesampling.phylotree.geodesic.Tree;
 
 public class Graph {
 	

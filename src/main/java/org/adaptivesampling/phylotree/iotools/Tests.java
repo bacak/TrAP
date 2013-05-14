@@ -1,6 +1,6 @@
-package iotools;
+package org.adaptivesampling.phylotree.iotools;
 
-import geodesic.Tree;
+import org.adaptivesampling.phylotree.geodesic.Tree;
 
 public class Tests {
 

@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 
-package geodesic;
+package org.adaptivesampling.phylotree.geodesic;
 
 public class LeafEdge extends TreeEdge {
 

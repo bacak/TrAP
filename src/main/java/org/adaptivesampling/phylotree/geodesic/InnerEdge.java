@@ -16,7 +16,7 @@
 
 
 
-package geodesic;
+package org.adaptivesampling.phylotree.geodesic;
 
 import java.util.*;
 

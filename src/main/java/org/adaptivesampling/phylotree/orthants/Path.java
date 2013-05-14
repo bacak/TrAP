@@ -14,10 +14,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-package orthants;
+package org.adaptivesampling.phylotree.orthants;
 
-import geodesic.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import org.adaptivesampling.phylotree.geodesic.Tree;
 
 public class Path {
 

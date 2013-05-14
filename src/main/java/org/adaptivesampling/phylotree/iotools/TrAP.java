@@ -15,13 +15,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 
-package iotools;
+package org.adaptivesampling.phylotree.iotools;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import geodesic.*;
-
-import java.util.*;
+import org.adaptivesampling.phylotree.geodesic.Tree;
 
 
 public class TrAP {

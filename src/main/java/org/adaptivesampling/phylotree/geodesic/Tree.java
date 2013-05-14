@@ -14,15 +14,22 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-package geodesic;
+package org.adaptivesampling.phylotree.geodesic;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.StringTokenizer;
 
-import java.util.*;
-
-import orthants.*;
-
-import iotools.*;
+import org.adaptivesampling.phylotree.iotools.Tests;
+import org.adaptivesampling.phylotree.orthants.Graph;
+import org.adaptivesampling.phylotree.orthants.Path;
 
 public class Tree {
 
