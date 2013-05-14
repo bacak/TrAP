@@ -28,6 +28,7 @@ import java.util.Random;
 import java.util.StringTokenizer;
 
 import org.adaptivesampling.phylotree.iotools.Tests;
+import org.adaptivesampling.phylotree.iotools.TrAP;
 import org.adaptivesampling.phylotree.orthants.Graph;
 import org.adaptivesampling.phylotree.orthants.Path;
 
@@ -141,7 +142,7 @@ public class Tree {
 					case ')':
 						i=i+2;
 						int j=0;
-						j=MeMe.nextIndexOf(newick,";,)",i);
+						j=TrAP.nextIndexOf(newick,";,)",i);
 						length = Double.parseDouble(newick.substring(i,j));
 						
 						for (int r=innerEdges.size()-1; r>-1; r--) {
@@ -161,7 +162,7 @@ public class Tree {
 					default:
 						
 						id = Integer.parseInt(newick.substring(i,newick.indexOf(':',i)));
-					    length = Double.parseDouble(newick.substring(newick.indexOf(':',i)+1, MeMe.nextIndexOf(newick,";,)",i)  ));
+					    length = Double.parseDouble(newick.substring(newick.indexOf(':',i)+1, TrAP.nextIndexOf(newick,";,)",i)  ));
 						
 						LeafEdge auxLeafEdge = new LeafEdge(id,length);
 						leafEdges.add(auxLeafEdge);
@@ -183,7 +184,7 @@ public class Tree {
 									innerEdges.get(r).getCosplit().add(auxLeafEdge);
 								}
 							}
-							i=MeMe.nextIndexOf(newick,";,)",i);
+							i=TrAP.nextIndexOf(newick,";,)",i);
 						}
 						
 						
