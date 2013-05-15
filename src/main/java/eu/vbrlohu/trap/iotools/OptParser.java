@@ -11,6 +11,13 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * Command line parser. Parses command line argument and ensures that these are valid.
+ * Provides getter functions for obtaining expected values (e.g. {@link File} in case of input/output files)
+ * 
+ * @author vjuranek
+ *
+ */
 public class OptParser {
 
     private static final String INPUT_FILE_OPT = "inputFile";
@@ -27,10 +34,18 @@ public class OptParser {
         this.cmdLine = parseCmdLine();
     }
     
+    /**
+     * 
+     * @return {@link String} value provided by user as input file parameter
+     */
     public String getInputFileOpt() {
         return cmdLine.getOptionValue(INPUT_FILE_OPT);
     }
     
+    /**
+     * Creates input {@link File} from provided option and checks if the file exists. If doesn't, it exists the TrAP.
+     * @return input {@link File}
+     */
     public File getInputFile() {
         String fName = cmdLine.getOptionValue(INPUT_FILE_OPT);
         File f = new File(fName);
@@ -39,14 +54,26 @@ public class OptParser {
         return f;
     }
 
+    /**
+     * 
+     * @return {@link String} value provided by user as output file parameter
+     */
     public String getOutputFileOpt() {
         return cmdLine.getOptionValue(OUPUT_FILE_OPT);
     }
     
+    /**
+     * 
+     * @return {@link String} value provided by user as number of iterations
+     */
     public String getIterationsOpt() {
         return cmdLine.getOptionValue(ITERATIONS_OPT);
     }
     
+    /**
+     * Converts number of iterations to int. If the provided value cannot be converted to int, exits the TrAP.
+     * @return Number of iterations
+     */
     public int getIterations() {
         String itr = cmdLine.getOptionValue(ITERATIONS_OPT);
         int i = 0;
@@ -58,10 +85,19 @@ public class OptParser {
         return i;
     }
     
+    /**
+     * 
+     * @return {@link String} value provided by user as log file parameter
+     */
     public String getLogFileOpt() {
         return cmdLine.getOptionValue(LOG_OPT);
     }
     
+    /**
+     * 
+     * Parses command line arguments and exits whole program if there is any problem with parsing arguments.
+     * This include also situation when required arguments are not provided.
+     */
     private CommandLine parseCmdLine() {
         CommandLineParser parser = new BasicParser();
         CommandLine cl = null;
@@ -86,8 +122,12 @@ public class OptParser {
         System.exit(1);
     }
 
+    /**
+     * Creates set of options accepted by TrAP and sets options properties.
+     * 
+     * @return {@link Options} accepted by TrAP
+     */
     public static Options createOptions() {
-
         // required options
         Option inputFile = OptionBuilder.withArgName(INPUT_FILE_OPT).withLongOpt(INPUT_FILE_OPT).hasArg().isRequired(true)
                 .withDescription("Input data file").create("i");
