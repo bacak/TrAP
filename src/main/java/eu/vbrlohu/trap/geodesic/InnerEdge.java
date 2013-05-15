@@ -25,21 +25,18 @@ public class InnerEdge extends TreeEdge {
 	private ArrayList<LeafEdge> split = new ArrayList<LeafEdge>();
 	private ArrayList<LeafEdge> cosplit = new ArrayList<LeafEdge>();
 	
-	// constructor
 	public InnerEdge(ArrayList<LeafEdge> split, ArrayList<LeafEdge> cosplit, double length) {
-		this.setLength(length);
+		super(length);
 		this.setSplit(split);
 		this.setCosplit(cosplit);
 	}
 	
-	// constructor
 	public InnerEdge(InnerEdge innerEdge) {
-		this.setLength(innerEdge.getLength());
+		super(innerEdge.getLength());
 		this.setSplit(innerEdge.getSplit());
 		this.setCosplit(innerEdge.getCosplit());
 	}
 	
-	// getters/setters
 	public ArrayList<LeafEdge> getSplit() {
 		return this.split;
 	}

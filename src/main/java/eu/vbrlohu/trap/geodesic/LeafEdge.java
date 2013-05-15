@@ -21,20 +21,16 @@ public class LeafEdge extends TreeEdge {
 
 	private int id;
 	
-	// constructor
 	public LeafEdge(int id, double length) {
-		this.setLength(length);
+		super(length);
 		this.setID(id);
 	}
-	
-	// constructor
+
 	public LeafEdge(LeafEdge leafEdge) {
+	    super(leafEdge.getLength());
 		this.id = leafEdge.getID();
-		this.setLength(leafEdge.getLength());
 	}
 	
-	
-	// getters/setters
 	public void setID(int id) {
 		this.id = id;
 	}

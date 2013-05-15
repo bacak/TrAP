@@ -20,9 +20,10 @@ public class TreeEdge {
 
 	private double length;
 
+	public TreeEdge(double lenght) {
+	    this.length = lenght;
+	}
 	
-	
-	// getters/setters
 	public double getLength() {
 		return this.length;
 	}
