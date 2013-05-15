@@ -127,7 +127,7 @@ public class OptParser {
      * 
      * @return {@link Options} accepted by TrAP
      */
-    public static Options createOptions() {
+    private static Options createOptions() {
         // required options
         Option inputFile = OptionBuilder.withArgName(INPUT_FILE_OPT).withLongOpt(INPUT_FILE_OPT).hasArg().isRequired(true)
                 .withDescription("Input data file").create("i");
