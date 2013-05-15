@@ -2,13 +2,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.adaptivesampling.phylotree</groupId>
+  <groupId>eu.vbrlohu.trap</groupId>
   <artifactId>TrAP</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>TrAP</name>
-  <url>http://www.adaptivesampling.org/</url>
+  <url>http://trap.vbrlohu.eu/</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,7 +36,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.adaptivesampling.phylotree.iotools.TrAP</mainClass>
+              <mainClass>eu.vbrlohu.trap.iotools.TrAP</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
