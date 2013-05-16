@@ -1,4 +1,4 @@
-/** This file is part of MeMe, program for computing medians and means of phylogenetic trees.
+/** This file is part of TrAP, Tree Averaging Program, which computes medians and means of phylogenetic trees.
     Copyright (C) 2013 Miroslav Bacak, Vojtech Juranek
 
     This program is free software: you can redistribute it and/or modify
