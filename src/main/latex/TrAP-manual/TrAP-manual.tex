@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt]{amsart}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+
+% Title Page
+\title{TrAP version 1.0 manual}
+\author{Miroslav Bacak \and Vojtech Juranek}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\textbf{TrAP} is a \textbf{Tr}ee \textbf{A}veraging \textbf{P}rogram computing medians and means of phylogenetic trees. It implements algorithms developed in~\cite{mm}. The program also allows to compute distance between two phylogenetic trees and their convex combinations using the Owen-Provan algorithm~\cite{owenprovan}.
+
+
+\section{Input}
+The input file has to contain (at least two) trees in the Newick format, one tree per line. The leaves of each tree are labeled by integers $0,1,\dots,n.$ The leaf $0$ can represent the root, or the outgroup of the phylogenetic tree in question.
+
+\section{Command line usage}
+
+\begin{itemize}
+\item
+\begin{verbatim}
+ java iotools.TrAP d inputFile
+\end{verbatim}
+The letter `d' stands for `distance'. The output is the distance between the first two trees in the file `inputFile'.
+
+\item
+\begin{verbatim}
+ java iotools.TrAP 1c N inputFile
+\end{verbatim}
+Computes the median of the trees in `inputFile' using the cyclic method with $N$ cycles.
+
+\item
+\begin{verbatim}
+ java iotools.TrAP 1r N inputFile
+\end{verbatim}
+Computes the median of the trees in `inputFile' using the random method with $N$ iterations.
+
+\item
+\begin{verbatim}
+ java iotools.TrAP 2c N inputFile
+\end{verbatim}
+Computes the median of the trees in `inputFile' using the cyclic method with $N$ cycles.
+
+\item
+\begin{verbatim}
+ java iotools.TrAP 2r N inputFile
+\end{verbatim}
+Computes the median of the trees in `inputFile' using the random method with $N$ iterations.
+
+\end{itemize}
+
+\section{Examples}
+
+\section{Licence}
+Copyright (C) 2013 Miroslav Bacak, Vojtech Juranek
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/.
+
+\bibliographystyle{siam}
+\bibliography{manual}
+\end{document}          
