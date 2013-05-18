@@ -8,9 +8,10 @@ public class OptParserTest {
     
     private final String INPUT_FILE =  "testInputFile";
     private final String OUTPUT_FILE =  "testOutputFile";
+    private final String QUANTITY =  "median";
     private final int ITERATIONS = 10;
     
-    private final String[] args = {"-i",INPUT_FILE,"-o",OUTPUT_FILE,"-n",String.valueOf(ITERATIONS)};
+    private final String[] args = {"-i",INPUT_FILE,"-o",OUTPUT_FILE,"-f",QUANTITY,"-n",String.valueOf(ITERATIONS)};
     private final OptParser op = new OptParser(args);
     
     @Test
@@ -21,6 +22,16 @@ public class OptParserTest {
     @Test
     public void testOutputFileOptions() {
         assertEquals(OUTPUT_FILE,op.getOutputFileOpt());
+    }
+    
+    @Test
+    public void testQuantity() {
+        assertEquals(Quantity.median,op.getQuantity());
+    }
+    
+    @Test
+    public void testQuantityOptions() {
+        assertEquals(QUANTITY,op.getQuantityOpt());
     }
     
     @Test

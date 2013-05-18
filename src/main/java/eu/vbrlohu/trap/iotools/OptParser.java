@@ -23,6 +23,7 @@ public class OptParser {
     private static final String INPUT_FILE_OPT = "inputFile";
     private static final String OUPUT_FILE_OPT = "outputFile";
     private static final String ITERATIONS_OPT = "iterations";
+    private static final String QUANTITY_OPT = "function";
     private static final String LOG_OPT = "logFile";
     
     private final Options options = createOptions();
@@ -60,6 +61,22 @@ public class OptParser {
      */
     public String getOutputFileOpt() {
         return cmdLine.getOptionValue(OUPUT_FILE_OPT);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public Quantity getQuantity() {
+        return Quantity.valueOf(cmdLine.getOptionValue(QUANTITY_OPT).toLowerCase());
+    }
+    
+    /**
+     * 
+     * @return {@link String} name of variable to be computed
+     */
+    public String getQuantityOpt() {
+        return cmdLine.getOptionValue(QUANTITY_OPT);
     }
     
     /**
@@ -135,6 +152,8 @@ public class OptParser {
                 .withDescription("Output data file").create("o");
         Option iterations = OptionBuilder.withArgName(ITERATIONS_OPT).withLongOpt(ITERATIONS_OPT).hasArg().isRequired(true)
                 .withDescription("Number of iterations").create("n");
+        Option quantity = OptionBuilder.withArgName(QUANTITY_OPT).withLongOpt(QUANTITY_OPT).hasArg().isRequired(true)
+                .withDescription("Variable to be computed").create("f");
 
         // optional options
         Option logFile = OptionBuilder.withArgName(LOG_OPT).withLongOpt(LOG_OPT).hasArg()
@@ -144,6 +163,7 @@ public class OptParser {
         options.addOption(inputFile);
         options.addOption(outputFile);
         options.addOption(iterations);
+        options.addOption(quantity);
         options.addOption(logFile);
         return options;
     }
