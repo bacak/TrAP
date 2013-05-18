@@ -39,7 +39,7 @@ public class TrAP {
         System.out.println();
         if (mytrees.size() < 2) {
             System.out.println("At least two trees needed.");
-            System.exit(0);
+            System.exit(1);
         }
 
         switch (op.getQuantity()) {
