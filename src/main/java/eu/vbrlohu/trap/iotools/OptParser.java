@@ -24,6 +24,7 @@ public class OptParser {
     private static final String OUPUT_FILE_OPT = "outputFile";
     private static final String ITERATIONS_OPT = "iterations";
     private static final String QUANTITY_OPT = "quantity";
+    private static final String METHOD_OPT = "method";
     private static final String LOG_OPT = "logFile";
     
     private final Options options = createOptions();
@@ -65,7 +66,7 @@ public class OptParser {
     
     /**
      * 
-     * @return
+     * @return {@link Quantity} to be computed
      */
     public Quantity getQuantity() {
         return Quantity.valueOf(cmdLine.getOptionValue(QUANTITY_OPT).toLowerCase());
@@ -77,6 +78,22 @@ public class OptParser {
      */
     public String getQuantityOpt() {
         return cmdLine.getOptionValue(QUANTITY_OPT);
+    }
+    
+    /**
+     * 
+     * @return {@link Method} used for computation
+     */
+    public Method getMethod() {
+        return Method.valueOf(cmdLine.getOptionValue(METHOD_OPT).toLowerCase());
+    }
+    
+    /**
+     * 
+     * @return {@link String} method used for computation
+     */
+    public String getMethodOpt() {
+        return cmdLine.getOptionValue(METHOD_OPT);
     }
     
     /**
@@ -154,6 +171,8 @@ public class OptParser {
                 .withDescription("Number of iterations").create("n");
         Option quantity = OptionBuilder.withArgName(QUANTITY_OPT).withLongOpt(QUANTITY_OPT).hasArg().isRequired(true)
                 .withDescription("Quantity to be computed").create("q");
+        Option method = OptionBuilder.withArgName(METHOD_OPT).withLongOpt(METHOD_OPT).hasArg().isRequired(true)
+                .withDescription("Method used for computation").create("m");
 
         // optional options
         Option logFile = OptionBuilder.withArgName(LOG_OPT).withLongOpt(LOG_OPT).hasArg()
@@ -164,6 +183,7 @@ public class OptParser {
         options.addOption(outputFile);
         options.addOption(iterations);
         options.addOption(quantity);
+        options.addOption(method);
         options.addOption(logFile);
         return options;
     }
