@@ -31,39 +31,31 @@ public class TrAP {
 
     public static void main(String[] args) {
 
-        // File dir = new File(args[0]);
-
-        File inputFile = new File(args[args.length - 1]);
-
-        ArrayList<Tree> mytrees = new ArrayList<Tree>();
-
-        mytrees = TrAP.readTreesFromFile(inputFile);
-
-        int numberOfTrees = 0;
-        numberOfTrees = mytrees.size();
-
+        OptParser op = new OptParser(args);
+        File inputFile = op.getInputFile();
+        
+        ArrayList<Tree> mytrees = TrAP.readTreesFromFile(inputFile);
+        
         System.out.println();
-
-        if (numberOfTrees < 2) {
-
+        if (mytrees.size() < 2) {
             System.out.println("At least two trees needed.");
             System.exit(0);
         }
 
-        switch (args[0].charAt(0)) {
-        case 'd':
+        switch (op.getQuantity()) {
+        case distance:
             computeDistance(mytrees);
             break;
-        case '1':
+        case median:
             computeMedian(mytrees, args);
             break;
-        case '2':
+        case mean:
             computeMean(mytrees, args);
             break;
         default:
+            // this should never hapen
             System.out.println("Illegal command line option.\n");
-            System.exit(0);
-            break;
+            System.exit(1);
         }
 
         System.out.println();
