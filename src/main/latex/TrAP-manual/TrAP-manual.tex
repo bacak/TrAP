@@ -1,59 +1,105 @@
 \documentclass[a4paper,12pt]{amsart}
 \usepackage[utf8x]{inputenc}
 \usepackage{amsmath}
+\usepackage[margin=2cm]{geometry}
+
 
 % Title Page
-\title{TrAP version 1.0 manual}
+\title{TrAP manual}
 \author{Miroslav Bacak \and Vojtech Juranek}
 \date{\today}
 \begin{document}
 \maketitle
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\textbf{TrAP} is a \textbf{Tr}ee \textbf{A}veraging \textbf{P}rogram computing medians and means of phylogenetic trees. It implements algorithms developed in~\cite{mm}. The program also allows to compute distance between two phylogenetic trees and their convex combinations using the Owen-Provan algorithm~\cite{owenprovan}.
+\textbf{TrAP} is a \textbf{Tr}ee \textbf{A}veraging \textbf{P}rogram computing medians and means of phylogenetic trees. It implements algorithms developed in~\cite{mm}. The program also allows to compute distance between two phylogenetic trees with the Owen-Provan algorithm~\cite{owenprovan}. You hence use this program for the following three tasks:
+\begin{enumerate}
+ \item to compute distance between two trees (option \texttt{-d}),
+ \item to compute median of a set of trees (option \texttt{--median}),
+ \item to compute mean of a set of trees (option \texttt{--mean}).
+\end{enumerate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Input}
-The input file has to contain (at least two) trees in the Newick format, one tree per line. The leaves of each tree are labeled by integers $0,1,\dots,n.$ The leaf $0$ can represent the root, or the outgroup of the phylogenetic tree in question.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Command line usage}
-
-\begin{itemize}
-\item
+Go to the directory containing \texttt{trap.jar} and type:
 \begin{verbatim}
- java iotools.TrAP d inputFile
+ java -jar trap.jar [options]
 \end{verbatim}
-The letter `d' stands for `distance'. The output is the distance between the first two trees in the file `inputFile'.
 
-\item
+\vspace{12pt}
+Options:
+
+\begin{tabular}{ll}
+\\
+\texttt{-d} & computes distance \\ 
+\texttt{--median} & computes median \\ 
+\texttt{--mean} & computes mean \\ 
+\texttt{-c} & use cyclic version \\ 
+\texttt{-n} & number of iterations \\ 
+\texttt{-i <inputFile>} & specifies the input file \\ 
+\texttt{-o <outputFile>} & specifies the input file \\ 
+\texttt{-l <logFile>} & creates log file \\ 
+\end{tabular}
+
+\vspace{12pt}
+
+The first tree options determine what you want to compute and are mutually exclusive. 
+
+\subsection{Computing distances}
+If you compute distance (i.e. choose option \texttt{-d}), then you have to specify the input file by the option \texttt{-i <inputFile>} and you can specify the output file by the option \texttt{-o <outputFile>}. No other options are applicable when computing distances. Your \texttt{<inputFile>} must be in the format described in Section~\ref{sec:input}. If it contains more than two trees, only first two are considered and distance between them is computed. The output is displayed on the screen and stored in \texttt{<outputFile>} provided you choose the \texttt{-o <outputFile>} option.
+
+\subsection{Computing medians}
+To compute a median, choose the \texttt{--median} option. Then you may require the cyclic-order version of the algorithm by selecting \texttt{-c}, see Section~\ref{sec:cycvran}. The number of iterations is a mandatory parameter, so type e.g. \texttt{-n 1000} for $1,000$ iterations. The input file is specified by the \texttt{-i <inputFile>} option and has to be in the format described in Section~\ref{sec:input}. A median of all the trees from \texttt{<inputFile>} is computed and the result is stored in \texttt{<outputFile>}. Typical usage may be:
 \begin{verbatim}
- java iotools.TrAP 1c N inputFile
+ java -jar trap.jar --median -n 1000 -i myTrees -o myMedian
 \end{verbatim}
-Computes the median of the trees in `inputFile' using the cyclic method with $N$ cycles.
+which will compute an approximation of a median of the trees from the file \texttt{myTrees} using $1,000$ iterations and store the resulting tree in the file \texttt{myMedian}.
 
-\item
+
+\subsection{Computing means}
+To compute a median, choose the \texttt{--mean} option. Then you may require the cyclic-order version of the algorithm by selecting \texttt{-c}, see Section~\ref{sec:cycvran}. The number of iterations is a mandatory parameter, so type e.g. \texttt{-n 1000} for $1,000$ iterations. The input file is specified by the \texttt{-i <inputFile>} option and has to be in the format described in Section~\ref{sec:input}. A median of all the trees from \texttt{<inputFile>} is computed and the result is stored in \texttt{<outputFile>}. Typical usage may be:
 \begin{verbatim}
- java iotools.TrAP 1r N inputFile
+ java -jar trap.jar --mean -n 1000 -i myTrees -o myMean
 \end{verbatim}
-Computes the median of the trees in `inputFile' using the random method with $N$ iterations.
+which will compute an approximation of the mean of the trees from the file \texttt{myTrees} using $1,000$ iterations and store the resulting tree in the file \texttt{myMean}.
 
-\item
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Input} \label{sec:input}
+The input file has to contain (at least two) trees in the Newick format, one tree per line. The leaves of each tree are labeled by integers $0,1,\dots,n.$ The leaf $0$ can represent the root, or the outgroup of the phylogenetic tree in question. An example of a tree in the Newick format is
 \begin{verbatim}
- java iotools.TrAP 2c N inputFile
+ ((1:0.7,2:0.42):0.11,3:0.9,0:45);
 \end{verbatim}
-Computes the mean of the trees in `inputFile' using the cyclic method with $N$ cycles.
 
-\item
-\begin{verbatim}
- java iotools.TrAP 2r N inputFile
-\end{verbatim}
-Computes the mean of the trees in `inputFile' using the random method with $N$ iterations.
 
-\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Log file}
+The computation details (e.g. run time) are displayed on the screen. If you want a copy to come as a text file, use the \texttt{-l} option.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cyclic versus random in median/mean computations} \label{sec:cycvran}
+For both median and mean computations there are two versions of the algorithms: cyclic-order version and random-order version, see~\cite{mm}. Both versions converge to the same value, so most users have no preference which one to use. The random-order version is implemented as default, to choose the cyclic-order version instead, use the \texttt{-c} option. Notice that if the \texttt{-c} option is used, then the number of iterations specified by the \texttt{-n} option means the number of \emph{cycles,} that is, the actual number of iterations is then equal to the number of cycles times the number of trees.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TO DO \section{Examples}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Licence}
 Copyright (C) 2013 Miroslav Bacak, Vojtech Juranek
 
@@ -63,6 +109,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{siam}
 \bibliography{manual}
 \end{document}          
