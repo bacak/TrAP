@@ -47,10 +47,10 @@ public class TrAP {
             computeDistance(mytrees);
             break;
         case median:
-            computeMedian(mytrees, args);
+            computeMedian(mytrees, op.getMethod(), op.getIterations());
             break;
         case mean:
-            computeMean(mytrees, args);
+            computeMean(mytrees, op.getMethod(), op.getIterations());
             break;
         default:
             // this should never hapen
@@ -70,22 +70,24 @@ public class TrAP {
         System.out.println("Distance is " + distance);
     }
 
-    private static void computeMedian(ArrayList<Tree> mytrees, String[] args) {
+    private static void computeMedian(ArrayList<Tree> mytrees, Method method, int numberOfIterations) {
         int numberOfTrees = mytrees.size();
         
-        int numberOfIterations1 = 0;
-        numberOfIterations1 = Integer.parseInt(args[1]);
-
         double startTime1 = System.currentTimeMillis();
 
-        Tree median;
+        Tree median = null;
 
-        if (args[0].charAt(1) == 'c') {
-            median = Tree.medianCyclic(mytrees, numberOfIterations1);
-        } else {
-            median = Tree.medianRandom(mytrees, numberOfIterations1);
+        switch (method) {
+        case cyclic:
+            median = Tree.medianCyclic(mytrees, numberOfIterations);
+            break;
+        case random:
+            median = Tree.medianRandom(mytrees, numberOfIterations);
+            break;
+        default:
+            // this should never hapen
         }
-
+       
         double elapsedTime1 = System.currentTimeMillis() - startTime1;
 
         File outputFile1 = new File(".././outputData/median");
@@ -99,16 +101,21 @@ public class TrAP {
 
             System.out.println("Median computation successful.\n");
             out.write("Median computation successful." + '\n' + '\n');
-            if (args[0].charAt(1) == 'c') {
+            switch (method) {
+            case cyclic:
                 System.out.println("Used method: Cyclic order");
                 out.write("Used method: Cyclic order" + '\n');
-                System.out.println("Number of cycles: " + numberOfIterations1);
-                out.write("Number of cycles: " + numberOfIterations1 + '\n');
-            } else {
+                System.out.println("Number of cycles: " + numberOfIterations);
+                out.write("Number of cycles: " + numberOfIterations + '\n');
+                break;
+            case random:
                 System.out.println("Used method: Random order");
                 out.write("Used method: Random order" + '\n');
-                System.out.println("Number of iterations: " + numberOfIterations1);
-                out.write("Number of iterations: " + numberOfIterations1 + '\n');
+                System.out.println("Number of iterations: " + numberOfIterations);
+                out.write("Number of iterations: " + numberOfIterations + '\n');
+                break;
+            default:
+                // this should never hapen
             }
 
             System.out.println("Number of trees in the input set: " + numberOfTrees);
@@ -130,22 +137,23 @@ public class TrAP {
 
     }
 
-    private static void computeMean(ArrayList<Tree> mytrees, String[] args) {
+    private static void computeMean(ArrayList<Tree> mytrees, Method method, int numberOfIterations) {
         int numberOfTrees = mytrees.size();
-        
-        int numberOfIterations2 = 0;
-        numberOfIterations2 = Integer.parseInt(args[1]);
-
         double startTime2 = System.currentTimeMillis();
 
-        Tree mean;
-
-        if (args[0].charAt(1) == 'c') {
-            mean = Tree.meanViaPPACyclic(mytrees, numberOfIterations2);
-        } else {
-            mean = Tree.meanViaPPARandom(mytrees, numberOfIterations2);
+        Tree mean = null;
+        
+        switch (method) {
+        case cyclic:
+            mean = Tree.meanViaPPACyclic(mytrees, numberOfIterations);
+            break;
+        case random:
+            mean = Tree.meanViaPPARandom(mytrees, numberOfIterations);
+            break;
+        default:
+            // this should never hapen
         }
-
+        
         double elapsedTime2 = System.currentTimeMillis() - startTime2;
 
         File outputFile2 = new File(".././outputData/mean");
@@ -159,17 +167,22 @@ public class TrAP {
 
             System.out.println("Mean computation successful.\n");
             out.write("Mean computation successful." + '\n' + '\n');
-
-            if (args[0].charAt(1) == 'c') {
+            
+            switch (method) {
+            case cyclic:
                 System.out.println("Used method: Cyclic order");
                 out.write("Used method: Cyclic order" + '\n');
-                System.out.println("Number of cycles: " + numberOfIterations2);
-                out.write("Number of cycles: " + numberOfIterations2 + '\n');
-            } else {
+                System.out.println("Number of cycles: " + numberOfIterations);
+                out.write("Number of cycles: " + numberOfIterations + '\n');
+                break;
+            case random:
                 System.out.println("Used method: Random order");
                 out.write("Used method: Random order" + '\n');
-                System.out.println("Number of iterations: " + numberOfIterations2);
-                out.write("Number of iterations: " + numberOfIterations2 + '\n');
+                System.out.println("Number of iterations: " + numberOfIterations);
+                out.write("Number of iterations: " + numberOfIterations + '\n');
+                break;
+            default:
+                // this should never hapen
             }
 
             System.out.println("Number of trees in the input set: " + numberOfTrees);
