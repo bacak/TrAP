@@ -72,11 +72,9 @@ public class TrAP {
 
     private static void computeMedian(ArrayList<Tree> mytrees, Method method, int numberOfIterations) {
         int numberOfTrees = mytrees.size();
-        
-        double startTime1 = System.currentTimeMillis();
-
         Tree median = null;
-
+        
+        double startTime = System.currentTimeMillis();
         switch (method) {
         case cyclic:
             median = Tree.medianCyclic(mytrees, numberOfIterations);
@@ -87,8 +85,7 @@ public class TrAP {
         default:
             // this should never hapen
         }
-       
-        double elapsedTime1 = System.currentTimeMillis() - startTime1;
+        double elapsedTime = System.currentTimeMillis() - startTime;
 
         File outputFile1 = new File(".././outputData/median");
         median.writeToFileNewick(outputFile1);
@@ -121,13 +118,9 @@ public class TrAP {
             System.out.println("Number of trees in the input set: " + numberOfTrees);
             out.write("Number of trees in the input set: " + numberOfTrees + '\n');
 
-            if (elapsedTime1 < 60000) {
-                out.write("Elapsed time: " + elapsedTime1 / 1000 + " sec" + '\n');
-                System.out.println("Elapsed time: " + elapsedTime1 / 1000 + " sec");
-            } else {
-                out.write("Elapsed time: " + elapsedTime1 / 60000 + " min" + '\n');
-                System.out.println("Elapsed time: " + elapsedTime1 / 60000 + " min");
-            }
+            String eTimeMgs = "Elapsed time: " + getPrettyTime(elapsedTime);
+            out.write(eTimeMgs + '\n');
+            System.out.println(eTimeMgs);
 
             // Close the output stream
             out.close();
@@ -139,10 +132,9 @@ public class TrAP {
 
     private static void computeMean(ArrayList<Tree> mytrees, Method method, int numberOfIterations) {
         int numberOfTrees = mytrees.size();
-        double startTime2 = System.currentTimeMillis();
-
         Tree mean = null;
         
+        double startTime = System.currentTimeMillis();
         switch (method) {
         case cyclic:
             mean = Tree.meanViaPPACyclic(mytrees, numberOfIterations);
@@ -153,8 +145,7 @@ public class TrAP {
         default:
             // this should never hapen
         }
-        
-        double elapsedTime2 = System.currentTimeMillis() - startTime2;
+        double elapsedTime = System.currentTimeMillis() - startTime;
 
         File outputFile2 = new File(".././outputData/mean");
         mean.writeToFileNewick(outputFile2);
@@ -187,15 +178,11 @@ public class TrAP {
 
             System.out.println("Number of trees in the input set: " + numberOfTrees);
             out.write("Number of trees in the input set:" + numberOfTrees + '\n');
-
-            if (elapsedTime2 < 60000) {
-                out.write("Elapsed time: " + elapsedTime2 / 1000 + " sec" + '\n');
-                System.out.println("Elapsed time: " + elapsedTime2 / 1000 + " sec");
-            } else {
-                out.write("Elapsed time: " + elapsedTime2 / 60000 + " min" + '\n');
-                System.out.println("Elapsed time: " + elapsedTime2 / 60000 + " min");
-            }
-
+ 
+            String eTimeMgs = "Elapsed time: " + getPrettyTime(elapsedTime);
+            out.write(eTimeMgs + '\n');
+            System.out.println(eTimeMgs);
+            
             // Close the output stream
             out.close();
         } catch (Exception e) {// Catch exception if any
@@ -204,6 +191,15 @@ public class TrAP {
 
     }
 
+    private static String getPrettyTime(double timeInMilis) {
+        if (timeInMilis < 60000) {
+            return timeInMilis / 1000 + " sec";
+        } else {
+            return timeInMilis / 60000 + " min";
+        }
+        
+    }
+    
     // read trees from a directory, each tree in a separate file
     public static ArrayList<Tree> readTreesFromDir(File dir) {
 
