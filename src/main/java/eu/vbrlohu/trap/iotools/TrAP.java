@@ -200,22 +200,7 @@ public class TrAP {
         
     }
     
-    // read trees from a directory, each tree in a separate file
-    public static ArrayList<Tree> readTreesFromDir(File dir) {
-
-        ArrayList<Tree> trees = new ArrayList<Tree>();
-        File dirName = dir;
-        File[] directory = dirName.listFiles();
-
-        for (int p = 0; p < directory.length; p++) {
-            trees.add(new Tree(directory[p]));
-        }
-        return trees;
-    }
-
-    public static void createLogFile() {
-
-    }
+    
 
     // read file with trees, each in the Newick format
     public static ArrayList<Tree> readTreesFromFile(File file) {

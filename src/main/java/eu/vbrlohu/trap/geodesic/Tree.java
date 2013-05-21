@@ -50,339 +50,92 @@ public class Tree {
 		this.setInnerEdges(tree.getInnerEdges());
 	}
 	
-	/*// constructor
-	public Tree(ArrayList<String> stringTree) {
-		ArrayList<LeafEdge> leafEdges = new ArrayList<LeafEdge>();
-		ArrayList<InnerEdge> innerEdges = new ArrayList<InnerEdge>();
-		for (int i=0; i<stringTree.size(); i++) {
-			int id = Integer.parseInt(stringTree.get(i).substring(0, stringTree.get(i).indexOf(' ')));
-			double length =0;
-			
-			if (stringTree.get(i).indexOf(' ') != stringTree.get(i).lastIndexOf(' ')) {   // inner edges
-				int indexOfSecondSpace = stringTree.get(i).indexOf(' ', stringTree.get(i).indexOf(' ')+1);
-				length = Double.parseDouble(stringTree.get(i).substring(stringTree.get(i).indexOf(' ')+1, indexOfSecondSpace));
-				ArrayList<LeafEdge> split = new ArrayList<LeafEdge>();
-				ArrayList<LeafEdge> cosplit = new ArrayList<LeafEdge>();
-				int indexOfPrevSpace = indexOfSecondSpace;
-				int indexOfSpace = indexOfSecondSpace;
-				boolean auxCond = true;
-				while (auxCond) {
-					
-					if (indexOfSpace != stringTree.get(i).lastIndexOf(' ')) {
-						indexOfPrevSpace = indexOfSpace;
-						indexOfSpace = stringTree.get(i).indexOf(' ', indexOfSpace+1);
-						int idToSplit = Integer.parseInt(stringTree.get(i).substring(indexOfPrevSpace + 1, indexOfSpace));
-						for (int r=0; r< leafEdges.size(); r++) {
-							if (idToSplit == leafEdges.get(r).getID()) {
-								split.add(leafEdges.get(r));
-								break;
-							}
-						}
-					}
-					else {
-						int idToSplit = Integer.parseInt(stringTree.get(i).substring(indexOfSpace + 1, stringTree.get(i).length()));
-						for (int r=0; r< leafEdges.size(); r++) {
-							if (idToSplit == leafEdges.get(r).getID()) {
-								split.add(leafEdges.get(r));
-								break;
-							}
-						}
-						auxCond = false;
-					}	
-				}
-				
-				InnerEdge innerEdge = new InnerEdge(split, cosplit, length);
-				// set cosplit
-				for (int q=0; q<leafEdges.size(); q++) {
-					int auxID =0;
-					auxID = leafEdges.get(q).getID();
-					if (!innerEdge.isIDinSplit(auxID)) {
-						innerEdge.getCosplit().add(leafEdges.get(q));
-					}
-				}
-				if (innerEdge.getLength()>Graph.ZERO) {
-  					innerEdges.add(innerEdge);
-  				}
-			}
-			else {   // leaf edges
-				
-				length = Double.parseDouble(stringTree.get(i).substring(stringTree.get(i).indexOf(' ')+1, stringTree.get(i).length() ));
-				leafEdges.add(new LeafEdge(id,length));
-			}
-		}
-		this.setInnerEdges(innerEdges);
-		this.setLeafEdges(leafEdges);
-	}*/
-	
 	
 	// constructor from Newick, where the root has label 0 and always is the last leaf in the string
-			public Tree(String newick) {
-				ArrayList<LeafEdge> leafEdges = new ArrayList<LeafEdge>();
-				ArrayList<InnerEdge> innerEdges = new ArrayList<InnerEdge>();
-				int i=newick.indexOf('('); 
-				
-				while (i<newick.length()) {
-					int id=0;
-					double length =0;
-					
-					switch(newick.charAt(i)) {
-					case '(': 
-						if ( i==newick.indexOf('(') ) {  // if the first '(' is associated with the root and not with an inner edge
-							i++;
-						} else {
-							
-							ArrayList<LeafEdge> auxSplit = new ArrayList<LeafEdge>();
-							ArrayList<LeafEdge> auxCosplit = new ArrayList<LeafEdge>();
-							InnerEdge auxInnerEdge = new InnerEdge(auxSplit,auxCosplit,-1);
-							innerEdges.add(auxInnerEdge);
-							i++;
-						}
-						
-						break;
-					
-					case ')':
-						i=i+2;
-						int j=0;
-						j=TrAP.nextIndexOf(newick,";,)",i);
-						length = Double.parseDouble(newick.substring(i,j));
-						
-						for (int r=innerEdges.size()-1; r>-1; r--) {
-							if (innerEdges.get(r).getLength()==-1) {
-								innerEdges.get(r).setLength(length);
-								
-								break;
-							}
-						}
-					    i=j;
-						break;
-					
-					case ',':
-						i++;
-						break;
-					
-					default:
-						
-						id = Integer.parseInt(newick.substring(i,newick.indexOf(':',i)));
-					    length = Double.parseDouble(newick.substring(newick.indexOf(':',i)+1, TrAP.nextIndexOf(newick,";,)",i)  ));
-						
-						LeafEdge auxLeafEdge = new LeafEdge(id,length);
-						leafEdges.add(auxLeafEdge);
-						if (id==0) {
-							for (int r=0; r<innerEdges.size(); r++) {
-								for (int q=0; q< leafEdges.size(); q++) {
-									
-									if (!innerEdges.get(r).isIDinCosplit(leafEdges.get(q).getID())) {
-										
-										innerEdges.get(r).getSplit().add(leafEdges.get(q));
-									}
-									
-								}
-							}
-							i=newick.length();
-						} else {
-							for (int r=0; r<innerEdges.size(); r++) {
-								if (innerEdges.get(r).getLength()==-1) {
-									innerEdges.get(r).getCosplit().add(auxLeafEdge);
-								}
-							}
-							i=TrAP.nextIndexOf(newick,";,)",i);
-						}
-						
-						
-						
-					}  //switch
-					
-				} // while
-				
-				this.setInnerEdges(innerEdges);
-				this.setLeafEdges(leafEdges);
-					
-			}
+	public Tree(String newick) {
+		ArrayList<LeafEdge> leafEdges = new ArrayList<LeafEdge>();
+		ArrayList<InnerEdge> innerEdges = new ArrayList<InnerEdge>();
+		int i=newick.indexOf('('); 
 		
-	
-	// constructor from Newick which adds the root (root will have no. 0 and length 1)
-		/*public Tree(String newick) {
-			ArrayList<LeafEdge> leafEdges = new ArrayList<LeafEdge>();
-			ArrayList<InnerEdge> innerEdges = new ArrayList<InnerEdge>();
-			int i=newick.indexOf('('); 
+		while (i<newick.length()) {
+			int id=0;
+			double length =0;
 			
-			while (i<newick.length()) {
-				int id=0;
-				double length =0;
-				
-				switch(newick.charAt(i)) {
-				case '(': 
-					if ( i==newick.indexOf('(') ) {  // if the first '(' is associated with the root and not with an inner edge
-						i++;
-					} else {
-						
-						ArrayList<LeafEdge> auxSplit = new ArrayList<LeafEdge>();
-						ArrayList<LeafEdge> auxCosplit = new ArrayList<LeafEdge>();
-						InnerEdge auxInnerEdge = new InnerEdge(auxSplit,auxCosplit,-1);
-						innerEdges.add(auxInnerEdge);
-						i++;
-					}
-					
-					break;
-				
-				case ')':
-					if (newick.charAt(i+1)==';') {
-						
-						LeafEdge root = new LeafEdge(0,1);
-						leafEdges.add(root);
-						
-						
-						for (int r=0; r<innerEdges.size(); r++) {
-							for (int q=0; q< leafEdges.size(); q++) {
-								
-								if (!innerEdges.get(r).isIDinCosplit(leafEdges.get(q).getID())) {
-									
-									innerEdges.get(r).getSplit().add(leafEdges.get(q));
-								}
-								
-							}
-						}
-						
-						i=newick.length();
-					} else {
-						i=i+2;
-						int j=0;
-						j=Frechet.nextIndexOf(newick,";,)",i);
-						length = Double.parseDouble(newick.substring(i,j));
-						
-						for (int r=innerEdges.size()-1; r>-1; r--) {
-							if (innerEdges.get(r).getLength()==-1) {
-								innerEdges.get(r).setLength(length);
-								
-								break;
-							}
-						}
-					    i=j;
-					    
-					}
-					break;
-				
-				case ',':
+			switch(newick.charAt(i)) {
+			case '(': 
+				if ( i==newick.indexOf('(') ) {  // if the first '(' is associated with the root and not with an inner edge
 					i++;
-					break;
+				} else {
+					
+					ArrayList<LeafEdge> auxSplit = new ArrayList<LeafEdge>();
+					ArrayList<LeafEdge> auxCosplit = new ArrayList<LeafEdge>();
+					InnerEdge auxInnerEdge = new InnerEdge(auxSplit,auxCosplit,-1);
+					innerEdges.add(auxInnerEdge);
+					i++;
+				}
 				
-				default:
-					
-					id = Integer.parseInt(newick.substring(i,newick.indexOf(':',i)));
-				    length = Double.parseDouble(newick.substring(newick.indexOf(':',i)+1, Frechet.nextIndexOf(newick,";,)",i)  ));
-					
-					LeafEdge auxLeafEdge = new LeafEdge(id,length);
-					leafEdges.add(auxLeafEdge);
+				break;
+			
+			case ')':
+				i=i+2;
+				int j=0;
+				j=TrAP.nextIndexOf(newick,";,)",i);
+				length = Double.parseDouble(newick.substring(i,j));
+				
+				for (int r=innerEdges.size()-1; r>-1; r--) {
+					if (innerEdges.get(r).getLength()==-1) {
+						innerEdges.get(r).setLength(length);
+						
+						break;
+					}
+				}
+			    i=j;
+				break;
+			
+			case ',':
+				i++;
+				break;
+			
+			default:
+				
+				id = Integer.parseInt(newick.substring(i,newick.indexOf(':',i)));
+			    length = Double.parseDouble(newick.substring(newick.indexOf(':',i)+1, TrAP.nextIndexOf(newick,";,)",i)  ));
+				
+				LeafEdge auxLeafEdge = new LeafEdge(id,length);
+				leafEdges.add(auxLeafEdge);
+				if (id==0) {
+					for (int r=0; r<innerEdges.size(); r++) {
+						for (int q=0; q< leafEdges.size(); q++) {
+							
+							if (!innerEdges.get(r).isIDinCosplit(leafEdges.get(q).getID())) {
+								
+								innerEdges.get(r).getSplit().add(leafEdges.get(q));
+							}
+							
+						}
+					}
+					i=newick.length();
+				} else {
 					for (int r=0; r<innerEdges.size(); r++) {
 						if (innerEdges.get(r).getLength()==-1) {
 							innerEdges.get(r).getCosplit().add(auxLeafEdge);
 						}
 					}
-					i=Frechet.nextIndexOf(newick,";,)",i);
-					
-				}  //switch
+					i=TrAP.nextIndexOf(newick,";,)",i);
+				}
 				
-			} // while
+				
+				
+			}  //switch
 			
-			this.setInnerEdges(innerEdges);
-			this.setLeafEdges(leafEdges);
-				
-		}
-	*/
-	
-	
-	// constructor from a single file containing a tree in our format (good for large trees)
-	public Tree(File file) {
+		} // while
 		
-		ArrayList<LeafEdge> leafEdges = new ArrayList<LeafEdge>();
-	    ArrayList<InnerEdge> innerEdges = new ArrayList<InnerEdge>();
-	    
-	    BufferedReader br = null;
-	    
-	    try {
-	      
-	      br = new BufferedReader(new FileReader(file));
-	      
-	      String line;
-	      
-	      while ( (line = br.readLine()) != null) {
-	    	  
-	    	  int id =0;
-			  double length =0;
-			  int counter =0;
-			  String number;
-	    	  StringTokenizer st = new StringTokenizer(line);
-	    	  ArrayList<LeafEdge> split = new ArrayList<LeafEdge>();
-			  ArrayList<LeafEdge> cosplit = new ArrayList<LeafEdge>();
-			  InnerEdge innerEdge = new InnerEdge(split, cosplit, length);
-	    	  while (st.hasMoreTokens()) {
-	    		  number = st.nextToken();
-	    		  if (counter ==0) {
-	    			  id = Integer.parseInt(number);
-	    			  counter++;
-	    			  
-	    			  continue;
-	    		  }
-                  if (counter ==1) {
-                	  
-	    			  length = Double.parseDouble(number);
-	    			  //System.out.println("length: " + length);
-	    			  counter++;
-	    			  
-	    			  continue;
-	    		  }
-                  
-                  counter++;
-                  int idToSplit = Integer.parseInt(number);
-                  for (int r=0; r< leafEdges.size(); r++) {
-						if (idToSplit == leafEdges.get(r).getID()) {
-							innerEdge.getSplit().add(leafEdges.get(r));
-							break;
-						}
-				  }
-	    	  }  
-	    	  //System.out.println("counter: " + counter);
-	    	  if (counter == 2) {
- 				   leafEdges.add(new LeafEdge(id,length));
- 				   
- 			  }
- 			  else {
- 				  // set cosplit
-  				  for (int q=0; q<leafEdges.size(); q++) {
-  					  int auxID =0;
-  					  auxID = leafEdges.get(q).getID();
-  				      if (!innerEdge.isIDinSplit(auxID)) {
-  					  innerEdge.getCosplit().add(leafEdges.get(q));
-  					  }
-  				  }
-  				  // set length
-  				//System.out.println("length again: " + length);
-  				  innerEdge.setLength(length);
-  				  if (innerEdge.getLength()>Graph.ZERO) {
-  					  innerEdges.add(innerEdge);
-  				  }
-  			      
- 			  }
-	      }
-       
-	      br.close();
-	     
-	    } catch (FileNotFoundException e) {
-	      e.printStackTrace();
-	    } catch (IOException e) {
-	      e.printStackTrace();
-	    }
-	    
-	    this.setLeafEdges(leafEdges);
-	    /*System.out.println("inner edges size: " + innerEdges.size());
-	    for (int w=0; w< innerEdges.size(); w++) {
-	    	System.out.println("inner edge length: " + innerEdges.get(w).getLength());
-	    }*/
 		this.setInnerEdges(innerEdges);
-		
-		
+		this.setLeafEdges(leafEdges);
+			
 	}
-	
+			
+		
 	// getters/setters
 	public ArrayList<InnerEdge> getInnerEdges() {
 		return this.innerEdges;
@@ -556,7 +309,6 @@ public class Tree {
 			      System.err.println("Error: " + e.getMessage());
 			    }
 	}	
-	
 	
 	
 	
