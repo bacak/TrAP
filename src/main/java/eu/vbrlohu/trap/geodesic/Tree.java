@@ -59,6 +59,7 @@ public class Tree {
 		
 		while (i<newick.length()) {
 			int id=0;
+			String name;
 			double length =0;
 			
 			switch(newick.charAt(i)) {
@@ -99,9 +100,10 @@ public class Tree {
 			default:
 				
 				id = Integer.parseInt(newick.substring(i,newick.indexOf(':',i)));
+				name = Integer.toString(id);
 			    length = Double.parseDouble(newick.substring(newick.indexOf(':',i)+1, TrAP.nextIndexOf(newick,";,)",i)  ));
 				
-				LeafEdge auxLeafEdge = new LeafEdge(id,length);
+				LeafEdge auxLeafEdge = new LeafEdge(id,name,length);
 				leafEdges.add(auxLeafEdge);
 				if (id==0) {
 					for (int r=0; r<innerEdges.size(); r++) {
@@ -381,7 +383,7 @@ public class Tree {
 		
 		// changes leaf edges of the tree
 		auxTree.setLeafEdges(e.getSplit());
-		LeafEdge auxLeafEdge = new LeafEdge(e.smallestIDinCosplit(),e.getLength());
+		LeafEdge auxLeafEdge = new LeafEdge(e.smallestIDinCosplit(),e.nameOfSmallestIDinCosplit(),e.getLength());
 		auxTree.getLeafEdges().add(auxLeafEdge);
 		
 		// removes inner edges
@@ -423,7 +425,7 @@ public class Tree {
 		
 		// changes leaf edges of the tree
 		auxTree.setLeafEdges(e.getCosplit());
-		LeafEdge auxLeafEdge = new LeafEdge(0,e.getLength());  // creates a new root
+		LeafEdge auxLeafEdge = new LeafEdge(0,"root",e.getLength());  // creates a new root
 		auxTree.leafEdges.add(auxLeafEdge); // adds the new root
 		
 		// removes inner edges

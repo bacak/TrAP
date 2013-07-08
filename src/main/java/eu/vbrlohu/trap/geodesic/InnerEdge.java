@@ -93,6 +93,19 @@ public class InnerEdge extends TreeEdge {
 		return id;
 	}
 	
+	//  returns the name of the leaf edge with smallest id among all leaves in the cosplit
+	public String nameOfSmallestIDinCosplit() {
+		String name = null;
+		int id =this.getCosplit().get(0).getID();
+		for (int i=1; i< this.getCosplit().size(); i++) {
+			if (this.getCosplit().get(i).getID() < id) {
+				id = this.getCosplit().get(i).getID();
+				name = this.getCosplit().get(i).getName();
+			}
+		}
+	    return name;
+	}
+	
 	// check whether a given inner edge is the same as the inner edge in place of parameter
 	public boolean isIdenticalWith(InnerEdge innerEdge) {
 		if ( (this.getSplit().size() != innerEdge.getSplit().size() ) || (this.getCosplit().size() != innerEdge.getCosplit().size())  ) {

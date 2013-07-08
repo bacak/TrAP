@@ -21,7 +21,9 @@ public class LeafEdge extends TreeEdge {
 
 	private int id;
 	
-	public LeafEdge(int id, double length) {
+	private String name;
+	
+	public LeafEdge(int id, String name, double length) {
 		super(length);
 		this.setID(id);
 	}
@@ -29,6 +31,7 @@ public class LeafEdge extends TreeEdge {
 	public LeafEdge(LeafEdge leafEdge) {
 	    super(leafEdge.getLength());
 		this.id = leafEdge.getID();
+		this.name = leafEdge.getName();
 	}
 	
 	public void setID(int id) {
@@ -37,6 +40,14 @@ public class LeafEdge extends TreeEdge {
 	
 	public int getID() {
 		return this.id;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 
 }
