@@ -34,6 +34,16 @@ public class TrAP {
         OptParser op = new OptParser(args);
         File inputFile = op.getInputFile();
         
+        NewickLexer lexer = new NewickLexer(inputFile);
+        NewickParser parser = new NewickParser(lexer);
+        
+        try {
+            parser.entry();
+          } catch(Exception e) {}
+        
+        
+        
+        
         ArrayList<Tree> mytrees = TrAP.readTreesFromFile(inputFile);
         
         System.out.println();
@@ -53,7 +63,7 @@ public class TrAP {
             computeMean(mytrees, op.getMethod(), op.getIterations());
             break;
         default:
-            // this should never hapen
+            // this should never happen
             System.out.println("Illegal command line option.\n");
             System.exit(1);
         }
@@ -83,7 +93,7 @@ public class TrAP {
             median = Tree.medianRandom(mytrees, numberOfIterations);
             break;
         default:
-            // this should never hapen
+            // this should never happen
         }
         double elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -112,7 +122,7 @@ public class TrAP {
                 out.write("Number of iterations: " + numberOfIterations + '\n');
                 break;
             default:
-                // this should never hapen
+                // this should never happen
             }
 
             System.out.println("Number of trees in the input set: " + numberOfTrees);
@@ -143,7 +153,7 @@ public class TrAP {
             mean = Tree.meanViaPPARandom(mytrees, numberOfIterations);
             break;
         default:
-            // this should never hapen
+            // this should never happen
         }
         double elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -173,7 +183,7 @@ public class TrAP {
                 out.write("Number of iterations: " + numberOfIterations + '\n');
                 break;
             default:
-                // this should never hapen
+                // this should never happen
             }
 
             System.out.println("Number of trees in the input set: " + numberOfTrees);
