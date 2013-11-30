@@ -165,13 +165,13 @@ public class OptParser {
         // required options
         Option inputFile = OptionBuilder.withArgName(INPUT_FILE_OPT).withLongOpt(INPUT_FILE_OPT).hasArg().isRequired(true)
                 .withDescription("Input data file").create("i");
-        Option outputFile = OptionBuilder.withArgName(OUPUT_FILE_OPT).withLongOpt(OUPUT_FILE_OPT).hasArg().isRequired(true)
+        Option outputFile = OptionBuilder.withArgName(OUPUT_FILE_OPT).withLongOpt(OUPUT_FILE_OPT).hasArg().isRequired(false)
                 .withDescription("Output data file").create("o");
-        Option iterations = OptionBuilder.withArgName(ITERATIONS_OPT).withLongOpt(ITERATIONS_OPT).hasArg().isRequired(true)
+        Option iterations = OptionBuilder.withArgName(ITERATIONS_OPT).withLongOpt(ITERATIONS_OPT).hasArg().isRequired(false)
                 .withDescription("Number of iterations").create("n");
         Option quantity = OptionBuilder.withArgName(QUANTITY_OPT).withLongOpt(QUANTITY_OPT).hasArg().isRequired(true)
                 .withDescription("Quantity to be computed").create("q");
-        Option method = OptionBuilder.withArgName(METHOD_OPT).withLongOpt(METHOD_OPT).hasArg().isRequired(true)
+        Option method = OptionBuilder.withArgName(METHOD_OPT).withLongOpt(METHOD_OPT).hasArg().isRequired(false)
                 .withDescription("Method used for computation").create("m");
 
         // optional options
